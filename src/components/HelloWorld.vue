@@ -1,40 +1,195 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
-  </div>
+  <v-app>
+    <div class="hello">
+      <h1>崩壞三傷害倍率計算機</h1>
+      <v-content>
+      <v-container fluid fill-height>
+        <v-layout align-center justify-center>
+          <v-flex xs12 sm8 md4>
+            <v-card class="elevation-12">
+              <v-toolbar dark color="primary">
+                <v-toolbar-title>爆擊率計算</v-toolbar-title>
+                <v-spacer></v-spacer>
+              </v-toolbar>
+              <v-card-text>
+                <v-form>
+                  <!--計算爆擊率-->
+                  <v-layout row wrap>
+                    <v-flex xs12 sm6 md6>
+                      <v-text-field
+                        key="critical"
+                        label="會心"
+                        type="number"
+                        mask="###"
+                        v-model.number="critical"
+                      ></v-text-field>
+                    </v-flex>
+                    <v-flex xs12 sm6 md6>
+                      <v-text-field
+                        key="level"
+                        label="等級"
+                        type="number"
+                        mask="##"
+                        v-model.number="level"
+                      ></v-text-field>
+                    </v-flex>
+                  </v-layout>
+                  <v-spacer></v-spacer>
+                  <h2 style="text-align: right;">爆擊率：{{ (critical/(75+level*5)).toFixed(4)*100 }}%</h2>
+                </v-form>
+              </v-card-text>
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-content>
+      <!--計算爆擊率
+      <v-layout row wrap>
+        <v-flex xs12 sm6 md3 offset-md3>
+          <v-text-field
+            key="critical"
+            label="會心"
+            type="number"
+            mask="###"
+            v-model.number="critical"
+          ></v-text-field>
+        </v-flex>
+        <v-flex xs12 sm6 md3>
+          <v-text-field
+            key="level"
+            label="等級"
+            type="number"
+            mask="##"
+            v-model.number="level"
+          ></v-text-field>
+        </v-flex>
+      </v-layout>-->
+      <!--
+      <v-flex xs12 sm4 text-xs-center>
+        <div>
+          <v-btn key="count_cri" v-on:click="countCriticalRate">計算</v-btn>
+        </div>
+      </v-flex>
+      <h2>爆擊率：{{ (critical/(75+level*5)).toFixed(4)*100 }}%</h2>-->
+      <v-content>
+        <v-container fluid fill-height>
+          <v-layout align-center justify-center>
+            <v-flex xs12 sm8 md4>
+              <v-card class="elevation-12">
+                <v-toolbar dark color="primary">
+                  <v-toolbar-title>傷害增益</v-toolbar-title>
+                  <v-spacer></v-spacer>
+                </v-toolbar>
+              <v-card-text>
+                <v-form>
+                  <!--計算傷害倍率-->
+                  <v-layout row wrap>
+                    <v-flex xs12 sm6 md6>
+                      <v-text-field
+                        key="attack"
+                        label="攻擊力"
+                        type="number"
+                        mask="####"
+                        v-model.number="attack"
+                      ></v-text-field>
+                    </v-flex>
+                    <v-flex xs12 sm6 md6>
+                      <v-text-field
+                        key="mult"
+                        label="技能倍率(%)"
+                        type="number"
+                        mask="####"
+                        v-model.number="multiplier"
+                      ></v-text-field>
+                    </v-flex>
+                    <v-flex xs12 sm6 md6>
+                      <v-text-field
+                        label="物理/元素增傷(%)"
+                        type="number"
+                        mask="###"
+                        v-model.number="physical_damage"
+                      ></v-text-field>
+                    </v-flex>
+                    <v-flex xs12 sm6 md6>
+                      <v-text-field
+                        label="物理/元素易傷(%)"
+                        type="number"
+                        mask="###"
+                        v-model.number="physical_damage_yi"
+                      ></v-text-field>
+                    </v-flex>
+                    <v-flex xs12 sm6 md6>
+                      <v-text-field
+                        label="全傷害增傷(%)"
+                        type="number"
+                        mask="###"
+                        v-model.number="all_damage"
+                      ></v-text-field>
+                    </v-flex>
+                    <v-flex xs12 sm6 md6>
+                      <v-text-field
+                        label="全傷害易傷(%)"
+                        type="number"
+                        mask="###"
+                        v-model.number="all_damage_yi"
+                      ></v-text-field>
+                    </v-flex>
+                    <v-flex xs12 sm6 md6>
+                      <v-text-field
+                        label="爆擊率(%)"
+                        type="number"
+                        
+                        v-model.number="critical_rate"
+                      ></v-text-field>
+                    </v-flex>
+                    <v-flex xs12 sm6 md6>
+                      <v-text-field
+                        label="爆擊增傷(%)"
+                        type="number"
+                        mask="###"
+                        hint="此為增加的爆擊傷害, 基礎爆擊傷害為200% (無增傷則填0)"
+                        v-model.number="critical_damage"
+                      ></v-text-field>
+                    </v-flex>
+                    <!--傷害*爆擊率＋傷害*(1-爆擊率)=平均傷害期望值-->
+                  </v-layout>
+                  <h2 style="text-align: right;">
+                    傷害倍率：{{ ((1+physical_damage/100)*(1+physical_damage_yi/100)*(1+all_damage/100)*(1+all_damage_yi/100)*(critical_rate/100)*(2+critical_damage/100)
+                               +(1+physical_damage/100)*(1+physical_damage_yi/100)*(1+all_damage/100)*(1+all_damage_yi/100)*(1-critical_rate/100)).toFixed(4) }}</h2>
+                  <h2 style="text-align: right;">
+                    平均傷害：{{ (attack*(multiplier/100)*(1+physical_damage/100)*(1+physical_damage_yi/100)*(1+all_damage/100)*(1+all_damage_yi/100)*(critical_rate/100)*(2+critical_damage/100)
+                               +(1+physical_damage/100)*(1+physical_damage_yi/100)*(1+all_damage/100)*(1+all_damage_yi/100)*(1-critical_rate/100)).toFixed(2) }}</h2>
+                  </v-form>
+                </v-card-text>
+              </v-card>
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-content>
+    </div>
+  </v-app>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
+  data() {
+    return {
+      attack: 1,
+      multiplier: 100,
+      critical: 0,
+      level: 80,
+      physical_damage: 0,
+      physical_damage_yi: 0,
+      all_damage: 0,
+      all_damage_yi: 0,
+      critical_rate: 0,
+      critical_damage: 0,
+    }
+  },
+  methods: {
+    countCriticalRate: (cri,level) => {
+      return cri/(75+level*5)
+    }
   }
 }
 </script>
