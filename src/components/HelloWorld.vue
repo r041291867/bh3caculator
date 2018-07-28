@@ -3,74 +3,46 @@
     <div class="hello">
       <h1>崩壞三傷害倍率計算機</h1>
       <v-content>
-      <v-container fluid fill-height>
-        <v-layout align-center justify-center>
-          <v-flex xs12 sm8 md4>
-            <v-card class="elevation-12">
-              <v-toolbar dark color="primary">
-                <v-toolbar-title>爆擊率計算</v-toolbar-title>
-                <v-spacer></v-spacer>
-              </v-toolbar>
-              <v-card-text>
-                <v-form>
-                  <!--計算爆擊率-->
-                  <v-layout row wrap>
-                    <v-flex xs12 sm6 md6>
-                      <v-text-field
-                        key="critical"
-                        label="會心"
-                        type="number"
-                        mask="###"
-                        v-model.number="critical"
-                      ></v-text-field>
-                    </v-flex>
-                    <v-flex xs12 sm6 md6>
-                      <v-text-field
-                        key="level"
-                        label="等級"
-                        type="number"
-                        mask="##"
-                        v-model.number="level"
-                      ></v-text-field>
-                    </v-flex>
-                  </v-layout>
+        <v-container fluid fill-height>
+          <v-layout align-center justify-center>
+            <v-flex xs12 sm8 md4>
+              <v-card class="elevation-12">
+                <v-toolbar dark color="primary">
+                  <v-toolbar-title>爆擊率計算</v-toolbar-title>
                   <v-spacer></v-spacer>
-                  <h2 style="text-align: right;">爆擊率：{{ (critical/(75+level*5)).toFixed(4)*100 }}%</h2>
-                </v-form>
-              </v-card-text>
-            </v-card>
-          </v-flex>
-        </v-layout>
-      </v-container>
-    </v-content>
-      <!--計算爆擊率
-      <v-layout row wrap>
-        <v-flex xs12 sm6 md3 offset-md3>
-          <v-text-field
-            key="critical"
-            label="會心"
-            type="number"
-            mask="###"
-            v-model.number="critical"
-          ></v-text-field>
-        </v-flex>
-        <v-flex xs12 sm6 md3>
-          <v-text-field
-            key="level"
-            label="等級"
-            type="number"
-            mask="##"
-            v-model.number="level"
-          ></v-text-field>
-        </v-flex>
-      </v-layout>-->
-      <!--
-      <v-flex xs12 sm4 text-xs-center>
-        <div>
-          <v-btn key="count_cri" v-on:click="countCriticalRate">計算</v-btn>
-        </div>
-      </v-flex>
-      <h2>爆擊率：{{ (critical/(75+level*5)).toFixed(4)*100 }}%</h2>-->
+                </v-toolbar>
+                <v-card-text>
+                  <v-form>
+                    <!--計算爆擊率-->
+                    <v-layout row wrap>
+                      <v-flex xs12 sm6 md6>
+                        <v-text-field
+                          key="critical"
+                          label="會心"
+                          type="number"
+                          mask="###"
+                          v-model.number="critical"
+                        ></v-text-field>
+                      </v-flex>
+                      <v-flex xs12 sm6 md6>
+                        <v-text-field
+                          key="level"
+                          label="等級"
+                          type="number"
+                          mask="##"
+                          v-model.number="level"
+                        ></v-text-field>
+                      </v-flex>
+                    </v-layout>
+                    <v-spacer></v-spacer>
+                    <h2 style="text-align: right;">爆擊率：{{ (critical/(75+level*5)).toFixed(4)*100 }}%</h2>
+                  </v-form>
+                </v-card-text>
+              </v-card>
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-content>
       <v-content>
         <v-container fluid fill-height>
           <v-layout align-center justify-center>
@@ -79,7 +51,38 @@
                 <v-toolbar dark color="primary">
                   <v-toolbar-title>傷害增益</v-toolbar-title>
                   <v-spacer></v-spacer>
+                  <v-tabs
+                    slot="extension"
+                    v-model="tab"
+                    color="primary"
+                    grow
+                  >
+                    <v-tabs-slider color="yellow"></v-tabs-slider>
+            
+                    <v-tab
+                      v-for="item in items"
+                      :key="item"
+                    >
+                      {{ item }}
+                    </v-tab>
+                  </v-tabs>
                 </v-toolbar>
+                <v-tab-item
+                  :id="tab-0"
+                  key="tab-1"
+                >
+                <v-card flat>
+            <v-card-text>ASDASDasd</v-card-text>
+          </v-card>
+                </v-tab-item>
+                <v-tab-item
+                  :id="tab-1"
+                  key="tab-2"
+                >
+                <v-card flat>
+            <v-card-text>!@#@!#!123</v-card-text>
+          </v-card>
+                </v-tab-item>
               <v-card-text>
                 <v-form>
                   <!--計算傷害倍率-->
@@ -184,6 +187,10 @@ export default {
       all_damage_yi: 0,
       critical_rate: 0,
       critical_damage: 0,
+      tab: null,
+      items: [
+        '物理傷害','元素傷害'
+      ]
     }
   },
   methods: {
