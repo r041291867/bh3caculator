@@ -35,7 +35,7 @@
                       </v-flex>
                     </v-layout>
                     <v-spacer></v-spacer>
-                    <h2 style="text-align: right;">爆擊率：{{ (critical/(75+level*5)).toFixed(4)*100 }}%</h2>
+                    <h2 style="text-align: right;">爆擊率：{{ countCriticalRate }}%</h2>
                   </v-form>
                 </v-card-text>
               </v-card>
@@ -67,27 +67,18 @@
                     </v-tab>
                   </v-tabs>
                 </v-toolbar>
-                <v-tab-item
-                  :id="tab-0"
-                  key="tab-1"
-                >
-                <v-card flat>
-            <v-card-text>ASDASDasd</v-card-text>
-          </v-card>
-                </v-tab-item>
-                <v-tab-item
-                  :id="tab-1"
-                  key="tab-2"
-                >
-                <v-card flat>
-            <v-card-text>!@#@!#!123</v-card-text>
-          </v-card>
-                </v-tab-item>
-              <v-card-text>
+                <v-tabs-items v-model="tab">
+                  <!--物理傷害欄位-->
+                  <v-tab-item
+                    :id="'tab-1'"
+                    key="tab-1"
+                  >
+                    <v-card flat>
+                     <v-card-text>
                 <v-form>
                   <!--計算傷害倍率-->
                   <v-layout row wrap>
-                    <v-flex xs12 sm6 md6>
+                    <v-flex xs12 sm5 md5>
                       <v-text-field
                         key="attack"
                         label="攻擊力"
@@ -96,60 +87,66 @@
                         v-model.number="attack"
                       ></v-text-field>
                     </v-flex>
-                    <v-flex xs12 sm6 md6>
+                    <v-flex xs12 sm5 md5 offset-sm1>
                       <v-text-field
                         key="mult"
                         label="技能倍率(%)"
                         type="number"
                         mask="####"
+                        suffix="%"
                         v-model.number="multiplier"
                       ></v-text-field>
                     </v-flex>
-                    <v-flex xs12 sm6 md6>
+                    <v-flex xs12 sm5 md5>
                       <v-text-field
-                        label="物理/元素增傷(%)"
+                        label="物理增傷(%)"
                         type="number"
                         mask="###"
+                        suffix="%"
                         v-model.number="physical_damage"
                       ></v-text-field>
                     </v-flex>
-                    <v-flex xs12 sm6 md6>
+                    <v-flex xs12 sm5 md5 offset-sm1>
                       <v-text-field
-                        label="物理/元素易傷(%)"
+                        label="物理易傷(%)"
                         type="number"
                         mask="###"
+                        suffix="%"
                         v-model.number="physical_damage_yi"
                       ></v-text-field>
                     </v-flex>
-                    <v-flex xs12 sm6 md6>
+                    <v-flex xs12 sm5 md5>
                       <v-text-field
                         label="全傷害增傷(%)"
                         type="number"
                         mask="###"
+                        suffix="%"
                         v-model.number="all_damage"
                       ></v-text-field>
                     </v-flex>
-                    <v-flex xs12 sm6 md6>
+                    <v-flex xs12 sm5 md5 offset-sm1>
                       <v-text-field
                         label="全傷害易傷(%)"
                         type="number"
                         mask="###"
+                        suffix="%"
                         v-model.number="all_damage_yi"
                       ></v-text-field>
                     </v-flex>
-                    <v-flex xs12 sm6 md6>
+                    <v-flex xs12 sm5 md5>
                       <v-text-field
                         label="爆擊率(%)"
                         type="number"
-                        
+                        suffix="%"
                         v-model.number="critical_rate"
                       ></v-text-field>
                     </v-flex>
-                    <v-flex xs12 sm6 md6>
+                    <v-flex xs12 sm5 md5 offset-sm1>
                       <v-text-field
                         label="爆擊增傷(%)"
                         type="number"
                         mask="###"
+                        suffix="%"
                         hint="此為增加的爆擊傷害, 基礎爆擊傷害為200% (無增傷則填0)"
                         v-model.number="critical_damage"
                       ></v-text-field>
@@ -157,13 +154,89 @@
                     <!--傷害*爆擊率＋傷害*(1-爆擊率)=平均傷害期望值-->
                   </v-layout>
                   <h2 style="text-align: right;">
-                    傷害倍率：{{ ((1+physical_damage/100)*(1+physical_damage_yi/100)*(1+all_damage/100)*(1+all_damage_yi/100)*(critical_rate/100)*(2+critical_damage/100)
-                               +(1+physical_damage/100)*(1+physical_damage_yi/100)*(1+all_damage/100)*(1+all_damage_yi/100)*(1-critical_rate/100)).toFixed(4) }}</h2>
+                    傷害倍率：{{ physicalDamageMultiplier*100 }}%</h2>
                   <h2 style="text-align: right;">
-                    平均傷害：{{ (attack*(multiplier/100)*(1+physical_damage/100)*(1+physical_damage_yi/100)*(1+all_damage/100)*(1+all_damage_yi/100)*(critical_rate/100)*(2+critical_damage/100)
-                               +(1+physical_damage/100)*(1+physical_damage_yi/100)*(1+all_damage/100)*(1+all_damage_yi/100)*(1-critical_rate/100)).toFixed(2) }}</h2>
+                    平均傷害：{{ (attack*(multiplier/100)*physicalDamageMultiplier).toFixed(2) }}</h2>
                   </v-form>
                 </v-card-text>
+                    </v-card>
+                  </v-tab-item>
+                  <!--元素傷害欄位-->
+                  <v-tab-item
+                    :id="'tab-2'"
+                    key="tab-2"
+                  >
+                  <v-card flat>
+                    <v-card-text>
+                      <v-form>
+                        <!--計算傷害倍率-->
+                        <v-layout row wrap>
+                          <v-flex xs12 sm5 md5>
+                            <v-text-field
+                              key="attack"
+                              label="攻擊力"
+                              type="number"
+                              mask="####"
+                              v-model.number="attack"
+                            ></v-text-field>
+                          </v-flex>
+                          <v-flex xs12 sm5 md5 offset-sm1>
+                            <v-text-field
+                              key="mult"
+                              label="技能倍率(%)"
+                              type="number"
+                              mask="####"
+                              suffix="%"
+                              v-model.number="multiplier"
+                            ></v-text-field>
+                          </v-flex>
+                          <v-flex xs12 sm5 md5>
+                            <v-text-field
+                              label="元素增傷(%)"
+                              type="number"
+                              mask="###"
+                              suffix="%"
+                              v-model.number="element_damage"
+                            ></v-text-field>
+                          </v-flex>
+                          <v-flex xs12 sm5 md5 offset-sm1>
+                            <v-text-field
+                              label="元素易傷(%)"
+                              type="number"
+                              mask="###"
+                              suffix="%"
+                              v-model.number="element_damage_yi"
+                            ></v-text-field>
+                          </v-flex>
+                          <v-flex xs12 sm5 md5>
+                            <v-text-field
+                              label="全傷害增傷(%)"
+                              type="number"
+                              mask="###"
+                              suffix="%"
+                              v-model.number="all_damage"
+                            ></v-text-field>
+                          </v-flex>
+                          <v-flex xs12 sm5 md5 offset-sm1>
+                            <v-text-field
+                              label="全傷害易傷(%)"
+                              type="number"
+                              mask="###"
+                              suffix="%"
+                              v-model.number="all_damage_yi"
+                            ></v-text-field>
+                          </v-flex>
+                          <!--傷害*爆擊率＋傷害*(1-爆擊率)=平均傷害期望值-->
+                        </v-layout>
+                        <h2 style="text-align: right;">
+                          傷害倍率：{{ elementDamageMultiplier*100 }}%</h2>
+                        <h2 style="text-align: right;">
+                          平均傷害：{{ (attack*(multiplier/100)*elementDamageMultiplier).toFixed(2) }}</h2>
+                        </v-form>
+                      </v-card-text>
+                    </v-card>
+                  </v-tab-item>
+                </v-tabs-items>
               </v-card>
             </v-flex>
           </v-layout>
@@ -177,12 +250,14 @@
 export default {
   data() {
     return {
-      attack: 1,
-      multiplier: 100,
-      critical: 0,
+      attack: 1000,
+      multiplier: 100,        //技能倍率
+      critical: 100,
       level: 80,
       physical_damage: 0,
       physical_damage_yi: 0,
+      element_damage: 0,
+      element_damage_yi: 0,
       all_damage: 0,
       all_damage_yi: 0,
       critical_rate: 0,
@@ -193,9 +268,15 @@ export default {
       ]
     }
   },
-  methods: {
-    countCriticalRate: (cri,level) => {
-      return cri/(75+level*5)
+  computed: {
+    countCriticalRate: function () {
+      return (this.critical/(75+this.level*5)).toFixed(4)*100
+    },
+    physicalDamageMultiplier: function () {
+      return ((1+this.physical_damage/100)*(1+this.physical_damage_yi/100)*(1+this.all_damage/100)*(1+this.all_damage_yi/100)*(this.critical_rate/100)*(2+this.critical_damage/100)+(1+this.physical_damage/100)*(1+this.physical_damage_yi/100)*(1+this.all_damage/100)*(1+this.all_damage_yi/100)*(1-this.critical_rate/100)).toFixed(4)
+    },
+    elementDamageMultiplier: function () {
+      return ((1+this.element_damage/100)*(1+this.element_damage_yi/100)*(1+this.all_damage/100)*(1+this.all_damage_yi/100)).toFixed(4)
     }
   }
 }
