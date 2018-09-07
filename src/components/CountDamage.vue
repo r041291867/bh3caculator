@@ -109,12 +109,29 @@
                         v-model.number="critical_damage"
                       ></v-text-field>
                     </v-flex>
+                    <v-layout fluid>
+                      <v-radio-group v-model="row" row>
+                        <v-flex xs4>
+                          <v-radio label="克制" value="radio-1" color="primary"></v-radio>
+                        </v-flex>
+                        <v-flex xs4>
+                          <v-radio label="無克制" value="radio-2" color="primary"></v-radio>
+                        </v-flex>
+                        <v-flex xs4>
+                          <v-radio label="被克制" value="radio-3" color="primary"></v-radio>
+                        </v-flex>
+                      </v-radio-group>
+                    </v-layout>
                     <!--傷害*爆擊率＋傷害*(1-爆擊率)=平均傷害期望值-->
                   </v-layout>
                   <h2 style="text-align: right;">
                     傷害倍率：{{ physicalDamageMultiplier*100 }}%</h2>
-                  <h2 style="text-align: right;">
-                    平均傷害：{{ (attack*(multiplier/100)*physicalDamageMultiplier).toFixed(2) }}</h2>
+                  <h2 v-if="row == 'radio-1'" style="text-align: right; color: red;">
+                    平均傷害：{{ final_multipier*(attack*(multiplier/100)*physicalDamageMultiplier).toFixed(2) }}</h2>
+                  <h2 v-else-if="row == 'radio-2'" style="text-align: right;">
+                    平均傷害：{{ final_multipier*(attack*(multiplier/100)*physicalDamageMultiplier).toFixed(2) }}</h2>
+                  <h2 v-else style="text-align: right; color: grey;">
+                    平均傷害：{{ final_multipier*(attack*(multiplier/100)*physicalDamageMultiplier).toFixed(2) }}</h2>
                   </v-form>
                 </v-card-text>
                     </v-card>
@@ -184,12 +201,29 @@
                               v-model.number="all_damage_yi"
                             ></v-text-field>
                           </v-flex>
+                          <v-layout fluid>
+                            <v-radio-group v-model="row" row>
+                              <v-flex xs4>
+                                <v-radio label="克制" value="radio-1" color="primary"></v-radio>
+                              </v-flex>
+                              <v-flex xs4>
+                                <v-radio label="無克制" value="radio-2" color="primary"></v-radio>
+                              </v-flex>
+                              <v-flex xs4>
+                                <v-radio label="被克制" value="radio-3" color="primary"></v-radio>
+                              </v-flex>
+                            </v-radio-group>
+                          </v-layout>
                           <!--傷害*爆擊率＋傷害*(1-爆擊率)=平均傷害期望值-->
                         </v-layout>
                         <h2 style="text-align: right;">
                           傷害倍率：{{ elementDamageMultiplier*100 }}%</h2>
-                        <h2 style="text-align: right;">
-                          平均傷害：{{ (attack*(multiplier/100)*elementDamageMultiplier).toFixed(2) }}</h2>
+                        <h2 v-if="row == 'radio-1'" style="text-align: right; color: red;">
+                          平均傷害：{{ final_multipier*(attack*(multiplier/100)*elementDamageMultiplier).toFixed(2) }}</h2>
+                        <h2 v-else-if="row == 'radio-2'" style="text-align: right;">
+                          平均傷害：{{ final_multipier*(attack*(multiplier/100)*elementDamageMultiplier).toFixed(2) }}</h2>
+                        <h2 v-else style="text-align: right; color: grey;">
+                          平均傷害：{{ final_multipier*(attack*(multiplier/100)*elementDamageMultiplier).toFixed(2) }}</h2>
                         </v-form>
                       </v-card-text>
                     </v-card>
@@ -383,20 +417,53 @@
                         v-model.number="critical_damage_c"
                       ></v-text-field>
                     </v-flex>
+                    <v-layout fluid>
+                      <v-radio-group xs6 v-model="row" column>
+                        <v-flex xs12>
+                          <v-radio label="克制" value="radio-1" color="primary"></v-radio>
+                        </v-flex>
+                        <v-flex xs12>
+                          <v-radio label="無克制" value="radio-2" color="primary"></v-radio>
+                        </v-flex>
+                        <v-flex xs12>
+                          <v-radio label="被克制" value="radio-3" color="primary"></v-radio>
+                        </v-flex>
+                      </v-radio-group>
+                      <v-radio-group xs6 v-model="row_c" column>
+                        <v-flex xs12>
+                          <v-radio label="克制" value="radio-1" color="primary"></v-radio>
+                        </v-flex>
+                        <v-flex xs12>
+                          <v-radio label="無克制" value="radio-2" color="primary"></v-radio>
+                        </v-flex>
+                        <v-flex xs12>
+                          <v-radio label="被克制" value="radio-3" color="primary"></v-radio>
+                        </v-flex>
+                      </v-radio-group>
+                    </v-layout>
                     <!--傷害*爆擊率＋傷害*(1-爆擊率)=平均傷害期望值-->
                   </v-layout>
+
                   <v-layout>
                     <v-flex xs6>
                       <h2 style="text-align: left;">
                       傷害倍率：{{ physicalDamageMultiplier*100 }}%</h2>
-                      <h2 style="text-align: left;">
-                      平均傷害：{{ (attack*(multiplier/100)*physicalDamageMultiplier).toFixed(2) }}</h2>
+                      <h2 v-if="row == 'radio-1'" style="text-align: left; color: red;">
+                        平均傷害：{{ final_multipier*(attack*(multiplier/100)*physicalDamageMultiplier).toFixed(2) }}</h2>
+                      <h2 v-else-if="row == 'radio-2'" style="text-align: left;">
+                        平均傷害：{{ final_multipier*(attack*(multiplier/100)*physicalDamageMultiplier).toFixed(2) }}</h2>
+                      <h2 v-else style="text-align: left; color: grey;">
+                        平均傷害：{{ final_multipier*(attack*(multiplier/100)*physicalDamageMultiplier).toFixed(2) }}</h2>
                     </v-flex>
                     <v-flex xs6>
                       <h2 style="text-align: left;">
                       傷害倍率：{{ physicalDamageMultiplier_c*100 }}%</h2>
-                      <h2 style="text-align: left;">
-                      平均傷害：{{ (attack_c*(multiplier_c/100)*physicalDamageMultiplier_c).toFixed(2) }}</h2>
+                      <h2 v-if="row_c == 'radio-1'" style="text-align: left; color: red;">
+                        平均傷害：{{ final_multipier_c*(attack_c*(multiplier_c/100)*physicalDamageMultiplier_c).toFixed(2) }}</h2>
+                      <h2 v-else-if="row_c == 'radio-2'" style="text-align: left;">
+                        平均傷害：{{ final_multipier_c*(attack_c*(multiplier_c/100)*physicalDamageMultiplier_c).toFixed(2) }}</h2>
+                      <h2 v-else style="text-align: left; color: grey;">
+                        平均傷害：{{ final_multipier_c*(attack_c*(multiplier_c/100)*physicalDamageMultiplier_c).toFixed(2) }}</h2>
                     </v-flex>
                   </v-layout>                      
                 </v-form>
@@ -523,20 +590,52 @@
                               v-model.number="all_damage_yi_c"
                             ></v-text-field>
                           </v-flex>
+                          <v-layout fluid>
+                            <v-radio-group xs6 v-model="row" column>
+                              <v-flex xs12>
+                                <v-radio label="克制" value="radio-1" color="primary"></v-radio>
+                              </v-flex>
+                              <v-flex xs12>
+                                <v-radio label="無克制" value="radio-2" color="primary"></v-radio>
+                              </v-flex>
+                              <v-flex xs12>
+                                <v-radio label="被克制" value="radio-3" color="primary"></v-radio>
+                              </v-flex>
+                            </v-radio-group>
+                            <v-radio-group xs6 v-model="row_c" column>
+                              <v-flex xs12>
+                                <v-radio label="克制" value="radio-1" color="primary"></v-radio>
+                              </v-flex>
+                              <v-flex xs12>
+                                <v-radio label="無克制" value="radio-2" color="primary"></v-radio>
+                              </v-flex>
+                              <v-flex xs12>
+                                <v-radio label="被克制" value="radio-3" color="primary"></v-radio>
+                              </v-flex>
+                            </v-radio-group>
+                          </v-layout>
                           <!--傷害*爆擊率＋傷害*(1-爆擊率)=平均傷害期望值-->
                         </v-layout>
                         <v-layout>
                           <v-flex xs6>
                             <h2 style="text-align: left;">
                             傷害倍率：{{ elementDamageMultiplier*100 }}%</h2>
-                            <h2 style="text-align: left;">
-                            平均傷害：{{ (attack*(multiplier/100)*elementDamageMultiplier).toFixed(2) }}</h2>
+                            <h2 v-if="row == 'radio-1'" style="text-align: left; color: red;">
+                              平均傷害：{{ final_multipier*(attack*(multiplier/100)*elementDamageMultiplier).toFixed(2) }}</h2>
+                            <h2 v-else-if="row == 'radio-2'" style="text-align: left;">
+                              平均傷害：{{ final_multipier*(attack*(multiplier/100)*elementDamageMultiplier).toFixed(2) }}</h2>
+                            <h2 v-else style="text-align: left; color: grey;">
+                              平均傷害：{{ final_multipier*(attack*(multiplier/100)*elementDamageMultiplier).toFixed(2) }}</h2>
                           </v-flex>
                           <v-flex xs6>
                             <h2 style="text-align: left;">
                             傷害倍率：{{ elementDamageMultiplier_c*100 }}%</h2>
-                            <h2 style="text-align: left;">
-                            平均傷害：{{ (attack_c*(multiplier_c/100)*elementDamageMultiplier_c).toFixed(2) }}</h2>
+                            <h2 v-if="row_c == 'radio-1'" style="text-align: left; color: red;">
+                              平均傷害：{{ final_multipier_c*(attack_c*(multiplier_c/100)*elementDamageMultiplier_c).toFixed(2) }}</h2>
+                            <h2 v-else-if="row_c == 'radio-2'" style="text-align: left;">
+                              平均傷害：{{ final_multipier_c*(attack_c*(multiplier_c/100)*elementDamageMultiplier_c).toFixed(2) }}</h2>
+                            <h2 v-else style="text-align: left; color: grey;">
+                              平均傷害：{{ final_multipier_c*(attack_c*(multiplier_c/100)*elementDamageMultiplier_c).toFixed(2) }}</h2>
                           </v-flex>
                         </v-layout>
                         
@@ -579,6 +678,8 @@ export default {
       critical_rate_c: 0,
       critical_damage_c: 0,
       tab: null,
+      row: 'radio-2',
+      row_c: 'radio-2',
       items: [
         '物理傷害','元素傷害'
       ],
@@ -597,6 +698,22 @@ export default {
     },
     elementDamageMultiplier_c: function () {
       return ((1+this.element_damage_c/100)*(1+this.element_damage_yi_c/100)*(1+this.all_damage_c/100)*(1+this.all_damage_yi_c/100)).toFixed(4)
+    },
+    final_multipier: function () {
+      //克制屬性係數
+      let final_mult = 1.0       //克制屬性係數
+      if (this.row == 'radio-1' ) final_mult = 1.3
+      else if (this.row == 'radio-3') final_mult = 0.7
+      else final_mult = 1.0
+      return final_mult
+    },
+    final_multipier_c: function () {
+      //克制屬性係數
+      let final_mult = 1.0       //克制屬性係數
+      if (this.row_c == 'radio-1' ) final_mult = 1.3
+      else if (this.row_c == 'radio-3') final_mult = 0.7
+      else final_mult = 1.0
+      return final_mult
     }
   },
   methods: {
